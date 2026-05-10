@@ -1,3 +1,5 @@
+# GenAI-assignment-III
+
 # NotebookLM RAG
 
 This project is a document question-answering app. You upload a PDF or plain text file, the app splits the file into chunks, creates embeddings with Google Gemini, stores them in Qdrant, and then answers follow-up questions using only the retrieved document context.
@@ -50,6 +52,5 @@ This project is a document question-answering app. You upload a PDF or plain tex
 
 ## Example
 
-<img width="1470" height="956" alt="example" src="https://github.com/user-attachments/assets/72ee362c-1d0e-4830-9f0f-e38e2bc3181e" />
+<img width="1470" height="956" alt="example" src="https://github.com/aroraverse/GenAI-assignment-III/blob/main/image.png" />
 
-# GenAI-assignment-III
