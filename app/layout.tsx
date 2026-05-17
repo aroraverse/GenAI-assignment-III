@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "NotebookLM RAG | Sarthak Arora",
+  title: "NotebookLM CORRECTIVE RAG | Sarthak Arora",
   description: "Upload a document, ask grounded questions, and review cited answers.",
 };
 
