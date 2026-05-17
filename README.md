@@ -2,13 +2,14 @@
 
 # NotebookLM RAG
 
-This project is a document question-answering app. You upload a PDF or plain text file, the app splits the file into chunks, creates embeddings with Google Gemini, stores them in Qdrant, and then answers follow-up questions using only the retrieved document context.
+This project is a document question-answering app. You upload a PDF or plain text file, the app splits the file into chunks, creates embeddings with Google Gemini, stores them in Qdrant, and then answers follow-up questions with a corrective RAG loop that can reject weak retrievals and rewrite the query before answering.
 
 ## What it does
 
 - Upload PDF or `.txt` files from the browser.
 - Index the document into a fresh Qdrant collection per upload.
 - Ask questions in a chat-style interface.
+- Use corrective retrieval to filter weak chunks and retry with a rewritten query when needed.
 - Return answers grounded in the document, with source snippets and page references when available.
 
 ## How it works
@@ -31,11 +32,18 @@ This project is a document question-answering app. You upload a PDF or plain tex
                                           └──────────────┘
 
   ┌─────────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-  │  Question   │ →  │ Embed query  │ →  │ Retrieve     │ →  │ Gemini 2.5   │
-  │             │    │              │    │ top-k chunks │    │ flash answers│
-  └─────────────┘    └──────────────┘    └──────────────┘    └──────────────┘
+  │  Question   │ →  │ Embed query  │ →  │ Retrieve     │ →  │ Relevance    │
+  │             │    │              │    │ top-k chunks │    │ gate + query │
+  └─────────────┘    └──────────────┘    └──────────────┘    │ rewrite      │
+                                                             └──────┬───────┘
+                                                                    │
+                                                                    ▼
+                                                             ┌──────────────┐
+                                                             │ Gemini 2.5   │
+                                                             │ flash answers│
+                                                             └──────────────┘
                                                               (grounded only
-                                                               in retrieved
+                                                               in corrected
                                                                context)
 ```
 
